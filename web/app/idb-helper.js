@@ -109,11 +109,12 @@ module.exports = idb_helper = {
 
 class ChainEvent {
     constructor(existing_on_event, callback, request) {
+        this.callback = callback;
         this.event = (event)=> {
             if(event.target.error)
                 console.error("---- transaction error ---->", event.target.error);
             //event.request = request
-            callback(event);
+            if(this.callback) this.callback(event);
             if(existing_on_event) existing_on_event(event);
         };
     }
